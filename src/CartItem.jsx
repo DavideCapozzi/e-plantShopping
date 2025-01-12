@@ -14,7 +14,6 @@ const CartItem = ({ onContinueShopping }) => {
         return total + intCost * item.quantity;
     }, 0);
 };
-
   const handleContinueShopping = (e) => {
    onContinueShopping(e);
   };
@@ -24,25 +23,23 @@ const CartItem = ({ onContinueShopping }) => {
   };
 
   const handleIncrement = (item) => {
-    dispatch(updateQuantity({
-        name: item.name,
-        quantity: item.quantity + 1
-    }));
-};
+    const updatedItem = { ...item };
+        updatedItem.quantity++;
+        dispatch(updateQuantity(updatedItem));
+  };
 
-const handleDecrement = (item) => {
-    if (item.quantity > 1) {
-        dispatch(updateQuantity({
-            name: item.name,
-            quantity: item.quantity - 1
-        }));
+  const handleDecrement = (item) => {
+    const updatedItem = { ...item };
+    if (updatedItem.quantity > 1) {
+        updatedItem.quantity--;
+        dispatch(updateQuantity(updatedItem));
     } else {
-        dispatch(removeItem(item.name)); // Anche qui, CartSlice si aspetta solo il name
+        dispatch(removeItem(updatedItem));
     }
-};
+  };
 
   const handleRemove = (item) => {
-    dispatch(removeItem(item.name));
+    dispatch(removeItem(item));
   };
 
   // Calculate total cost based on quantity for an item
